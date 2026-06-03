@@ -1029,7 +1029,19 @@ export default function App() {
   const loadMatches = useCallback(async () => {
     try {
       const data = await api.matches();
-      setMatches(Array.isArray(data) ? data : []);
+      const MAJOR_LEAGUES = new Set([
+      2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,
+      21,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,
+      48,49,50,51,61,62,65,66,78,79,80,81,88,94,95,98,103,
+      106,113,114,119,128,130,131,132,135,136,137,140,141,
+      143,144,152,164,165,169,170,172,179,183,185,188,197,
+      199,200,203,207,210,218,235,253,254,255,256,257,258,
+      262,263,269,271,272,273,274,275,276,277,278,279,280,
+      282,283,285,286,287,290,292,307,308,318,319,320,321,
+      480,481,482,483,484,485,486,529,530,531,532,533,848
+    ]);
+    const filtered = Array.isArray(data) ? data.filter(m => MAJOR_LEAGUES.has(m.league_id)) : [];
+    setMatches(filtered);
       setLastRefresh(new Date());
     } catch {}
     finally { setLoading(false); }
